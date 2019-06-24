@@ -230,7 +230,6 @@ namespace Neo.UI
         private void MainForm_Load(object sender, EventArgs e)
         {
             actor = Program.NeoSystem.ActorSystem.ActorOf(EventWrapper<Blockchain.PersistCompleted>.Props(Blockchain_PersistCompleted));
-            Program.NeoSystem.Blockchain.Tell(new Blockchain.Register(), actor);
             Program.NeoSystem.StartNode(Settings.Default.P2P.Port, Settings.Default.P2P.WsPort);
         }
 
@@ -637,7 +636,16 @@ namespace Neo.UI
                 if (dialog.ShowDialog() != DialogResult.OK) return;
                 tx = dialog.GetTransaction();
             }
-            Helper.SignAndShowInformation(tx);
+
+            try
+            {
+                Helper.SignAndShowInformation(tx);
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+
         }
 
         private void 资产分发IToolStripMenuItem_Click(object sender, EventArgs e)
@@ -645,7 +653,16 @@ namespace Neo.UI
             using (IssueDialog dialog = new IssueDialog())
             {
                 if (dialog.ShowDialog() != DialogResult.OK) return;
-                Helper.SignAndShowInformation(dialog.GetTransaction());
+
+                try
+                {
+                    Helper.SignAndShowInformation(dialog.GetTransaction());
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }
+                
             }
         }
 
@@ -662,7 +679,16 @@ namespace Neo.UI
                 if (dialog.ShowDialog() != DialogResult.OK) return;
                 tx = dialog.GetTransaction();
             }
-            Helper.SignAndShowInformation(tx);
+
+            try
+            {
+                Helper.SignAndShowInformation(tx);
+            }
+            catch(Exception ex)
+            {
+                return;
+            }
+
         }
 
         private void invokeContractToolStripMenuItem_Click(object sender, EventArgs e)
@@ -670,7 +696,14 @@ namespace Neo.UI
             using (InvokeContractDialog dialog = new InvokeContractDialog())
             {
                 if (dialog.ShowDialog() != DialogResult.OK) return;
-                Helper.SignAndShowInformation(dialog.GetTransaction());
+                try
+                {
+                    Helper.SignAndShowInformation(dialog.GetTransaction());
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }            
             }
         }
 
@@ -679,7 +712,14 @@ namespace Neo.UI
             using (ElectionDialog dialog = new ElectionDialog())
             {
                 if (dialog.ShowDialog() != DialogResult.OK) return;
-                Helper.SignAndShowInformation(dialog.GetTransaction());
+                try
+                {
+                    Helper.SignAndShowInformation(dialog.GetTransaction());
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }
             }
         }
 
@@ -883,7 +923,14 @@ namespace Neo.UI
             using (VotingDialog dialog = new VotingDialog(account.ScriptHash))
             {
                 if (dialog.ShowDialog() != DialogResult.OK) return;
-                Helper.SignAndShowInformation(dialog.GetTransaction());
+                try
+                {
+                    Helper.SignAndShowInformation(dialog.GetTransaction());
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }
             }
         }
 
@@ -958,7 +1005,15 @@ namespace Neo.UI
                     ScriptHash = RecycleScriptHash
                 }).ToArray()
             }, fee: Fixed8.Zero);
-            Helper.SignAndShowInformation(tx);
+            try
+            {
+                Helper.SignAndShowInformation(tx);
+            }
+            catch
+            {
+                return;
+            }
+
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
